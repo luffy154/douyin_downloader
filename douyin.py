@@ -362,7 +362,7 @@ class CrawlerScheduler(object):
                 continue
             if url.find('/share/video/') > 0:
                 url = self._get_user_link_from_video(url)
-            number = re.findall(r'/share/user/(\d+)', url)
+            number = re.findall(r'/share/user/(\w+)', url)
             if not len(number):
                 continue
             self.user_ids.append(number[0])
