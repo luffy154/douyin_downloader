@@ -91,9 +91,11 @@ def get_file_content(filename):
                 jsonStr += line
     return jsonStr
 
+root = "Download_TikTok"
+
 def download_tiktok(aweme_id):
     file_name = aweme_id + "-自然美景分享 #美景  #自然景观 #放松心情 #舒适 #安逸.mp4"
-    if os.path.exists(f'Download_TikTok/{file_name}'):
+    if os.path.exists(f'{root}/{file_name}'):
         print("文件已经存在：", file_name)
         return
     tikData = get_tiktok_video_data(aweme_id)
@@ -108,7 +110,7 @@ def download_tiktok(aweme_id):
     videoRes = requests.get(url=videoUrl, headers=headers, stream=True, timeout=30000)
     content_size = int(int(videoRes.headers['Content-Length']) / 1024)
     print(content_size)
-    with open(f'Download_tiktok/{file_name}', "wb") as f:
+    with open(f'{root}/{file_name}', "wb") as f:
         print("Total Size: ", content_size, 'k,start...')
         for data in tqdm(iterable=videoRes.iter_content(1024), total=content_size, unit='k', desc=file_name[:19]):
             f.write(data)
@@ -118,14 +120,49 @@ def download_tiktok(aweme_id):
 def main(link):
     jsonStr = get_file_content("tiktok.txt")
     data = json.loads(jsonStr)
-    all_data = []
-    for item in data['itemList']:
-        all_data.append(item['id'])
-    # all_data = [
-    #
-    # ]
+    # all_data = []
+    # for item in data['itemList']:
+    #     all_data.append(item['id'])
+    all_data = [
+        "7280364610425785630",
+        "7274996648164543790",
+        "7274858979577122078",
+        "7272640717934169386",
+        "7269944213754694954",
+        "7269287984845901087",
+        "7268507926636006698",
+        "7266305652555910443",
+        "7265255183091764522",
+        "7263261788970487082",
+        "7257814663780568366",
+        "7255285324845174059",
+        "7253005936384560427",
+        "7252604827748797742",
+        "7252227271069551915",
+        "7250350258327244075",
+        "7247761826023247147",
+        "7241493488326446382",
+        "7241007740385004846",
+        "7238167682288258346",
+        "7226157455581957419",
+        "7223060657069919531",
+        "7222455297170869547",
+        "7222152075935747371",
+        "7219245238911503658",
+        "7217386176863325482",
+        "7216449193236303146",
+        "7205406733399756078",
+        "7202812809862745386",
+        "7202615409747496235",
+        "7199502563551628590",
+        "7199300489593507118",
+        "7197637875524209966",
+        "7197327630306266414",
+        "7186445331540921646"
+     ]
     for item in all_data:
         download_tiktok(aweme_id=item)
+
 
 def get_tiktok_video_data(video_id: str):
     print('正在获取TikTok视频数据...')
@@ -162,7 +199,7 @@ def get_url(text: str):
 
 if __name__ == "__main__":
     try:
-        os.makedirs("Download")
+        os.makedirs(f"{root}")
     except FileExistsError:
         print("exists")
     main('https://www.douyin.com/user/MS4wLjABAAAAYFnqGRaFV98S4F4PH0l2oTBjKRpFQ1sUaoN8HzkfBN8twmlcQp355vMWj7iKSkNZ')
