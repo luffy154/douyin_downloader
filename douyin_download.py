@@ -3,6 +3,7 @@ import urllib.parse
 
 import execjs
 import requests
+import traceback
 from tqdm import tqdm
 
 
@@ -55,21 +56,25 @@ def get_data(uid, max_cursor):
     if data_json and "aweme_list" in data_json.keys():
         aweme_list = data_json["aweme_list"]
         for item in aweme_list:
-            src = item["video"]["play_addr_h264"]["url_list"][0]
-            desc = item["desc"]
-            aweme_id = item["aweme_id"]
-            data.append({
-                "id": aweme_id,
-                "src": src,
-                "desc": desc
-            })
+            try:
+               src = item["video"]["play_addr_h264"]["url_list"][0]
+               desc = item["desc"]
+               aweme_id = item["aweme_id"]
+               data.append({
+                   "id": aweme_id,
+                   "src": src,
+                   "desc": desc
+               })
+            except Exception as e:
+               traceback.print_exc()
+               print(item)
     if len(data) > 0:
         return data, data_json['max_cursor']
     else:
         return data, -1
 
 
-path = "village"
+
 
 
 def generate_x_bogus_url(url: str, headers: dict) -> str:
@@ -104,7 +109,7 @@ def download(url, aweme_id, desc):
 
 
 def main(link):
-    user_id = 'MS4wLjABAAAA5pGWLGnkKcDqk85LfsQTrI0YPDquhMMPPg0PCeEXKuo'
+    user_id = 'MS4wLjABAAAAaIbnJRwvgg9gPHaKfUXj5WlthHgnWJVJZHCbCB-KoLw'
     all_data = []
     data, max_cursor = get_data(uid=user_id, max_cursor=0)
     all_data += data
@@ -119,7 +124,7 @@ def main(link):
                 f.write('error at' + item['src'] + str(e) + '\n')
                 f.close()
 
-
+path = "xiaomin"
 if __name__ == "__main__":
     try:
         os.makedirs(f"{path}")

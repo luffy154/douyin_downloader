@@ -115,10 +115,39 @@ def main(link):
         except Exception as e:
             traceback.print_exc()
 
+def sigalmain():
+    all_data = []
+    all_data.append({
+        "id": "7301629744016133388",
+        "desc": "",
+        "src": ""
+    })
+    all_data.append({
+        "id": "7301482293548354850",
+        "desc": "",
+        "src": ""
+    })
+    all_data.append({
+        "id": "7297808287196581160",
+        "desc": "",
+        "src": ""
+    })
+    all_data.append({
+        "id": "7293688170917498164",
+        "desc": "",
+        "src": ""
+    })
+
+
+    for item in all_data:
+        try:
+            download(url=item["src"], aweme_id=item["id"], desc=item["desc"])
+        except Exception as e:
+            traceback.print_exc()
 
 if __name__ == "__main__":
     try:
         os.makedirs(f"{root}")
     except FileExistsError:
         print("exists")
-    main('https://www.douyin.com/user/MS4wLjABAAAAYFnqGRaFV98S4F4PH0l2oTBjKRpFQ1sUaoN8HzkfBN8twmlcQp355vMWj7iKSkNZ')
+    sigalmain()
